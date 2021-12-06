@@ -1,0 +1,72 @@
+<h1>Show User detail</h1>
+
+<%= if @live_action in [:edit] do %>
+  <%= live_modal TaskAppAuthWeb.UserDetailLive.FormComponent,
+    id: @user_detail.id,
+    title: @page_title,
+    action: @live_action,
+    user_detail: @user_detail,
+    return_to: Routes.user_detail_show_path(@socket, :show, @user_detail) %>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>First name:</strong>
+    <%= @user_detail.first_name %>
+  </li>
+
+  <li>
+    <strong>Last name:</strong>
+    <%= @user_detail.last_name %>
+  </li>
+
+  <li>
+    <strong>Email:</strong>
+    <%= @user_detail.email %>
+  </li>
+
+  <li>
+    <strong>Dob:</strong>
+    <%= @user_detail.dob %>
+  </li>
+
+  <li>
+    <strong>Phone number:</strong>
+    <%= @user_detail.phone_number %>
+  </li>
+
+  <li>
+    <strong>Street address:</strong>
+    <%= @user_detail.street_address %>
+  </li>
+
+  <li>
+    <strong>Zip code:</strong>
+    <%= @user_detail.zip_code %>
+  </li>
+
+  <li>
+    <strong>City:</strong>
+    <%= @user_detail.city %>
+  </li>
+
+  <li>
+    <strong>State:</strong>
+    <%= @user_detail.state %>
+  </li>
+
+  <li>
+    <strong>Password:</strong>
+    <%= @user_detail.password %>
+  </li>
+
+  <li>
+    <strong>Ssn:</strong>
+    <%= @user_detail.ssn %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.user_detail_show_path(@socket, :edit, @user_detail), class: "button" %></span> |
+<span><%= live_redirect "Back", to: Routes.user_detail_index_path(@socket, :index) %></span>

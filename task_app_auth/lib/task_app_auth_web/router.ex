@@ -3,34 +3,40 @@ defmodule TaskAppAuthWeb.Router do
   use Pow.Phoenix.Router
 
   pipeline :browser do
-    plug :accepts, ["html"]
-    plug :fetch_session
-    plug :fetch_live_flash
-    plug :put_root_layout, {TaskAppAuthWeb.LayoutView, :root}
-    plug :protect_from_forgery
-    plug :put_secure_browser_headers
+    plug(:accepts, ["html"])
+    plug(:fetch_session)
+    plug(:fetch_live_flash)
+    plug(:put_root_layout, {TaskAppAuthWeb.LayoutView, :root})
+    plug(:protect_from_forgery)
+    plug(:put_secure_browser_headers)
   end
 
-
-
   pipeline :api do
-    plug :accepts, ["json"]
+    plug(:accepts, ["json"])
   end
 
   pipeline :protected do
-    plug Pow.Plug.RequireAuthenticated,
+    plug(Pow.Plug.RequireAuthenticated,
       error_handler: Pow.Phoenix.PlugErrorHandler
-  end
-  scope "/", TaskAppAuthWeb do
-    pipe_through :browser
-
-    get "/", PageController, :index
+    )
   end
 
+  scope "/", TaskAppAuthWeb do
+    pipe_through(:browser)
+
+    get("/", PageController, :index)
+    live("/user_detail", UserDetailLive.Index, :index)
+    live("/user_detail/new", UserDetailLive.Index, :new)
+    live("/user_detail/:id/edit", UserDetailLive.Index, :edit)
+
+    live("/user_detail/:id", UserDetailLive.Show, :show)
+    live("/user_detail/:id/show/edit", UserDetailLive.Show, :edit)
+  end
 
   scope "/", TaskAppAuthWeb do
-    pipe_through [:browser,:protected]
-    resources "/tasks", TaskController
+    pipe_through([:browser])
+    resources("/tasks", TaskController)
+    live("/details/new", DetailsLive.New, :new)
   end
 
   # Other scopes may use custom stacks.
@@ -49,9 +55,9 @@ defmodule TaskAppAuthWeb.Router do
     import Phoenix.LiveDashboard.Router
 
     scope "/" do
-      pipe_through :browser
+      pipe_through(:browser)
       pow_routes()
-      live_dashboard "/dashboard", metrics: TaskAppAuthWeb.Telemetry
+      live_dashboard("/dashboard", metrics: TaskAppAuthWeb.Telemetry)
     end
   end
 
@@ -61,9 +67,9 @@ defmodule TaskAppAuthWeb.Router do
   # node running the Phoenix server.
   if Mix.env() == :dev do
     scope "/dev" do
-      pipe_through :browser
+      pipe_through(:browser)
 
-      forward "/mailbox", Plug.Swoosh.MailboxPreview
+      forward("/mailbox", Plug.Swoosh.MailboxPreview)
     end
   end
 end

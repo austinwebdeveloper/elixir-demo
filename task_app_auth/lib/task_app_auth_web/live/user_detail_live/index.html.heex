@@ -1,0 +1,55 @@
+<h1>Listing User detail</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+  <%= live_modal TaskAppAuthWeb.UserDetailLive.FormComponent,
+    id: @user_detail.id || :new,
+    title: @page_title,
+    action: @live_action,
+    user_detail: @user_detail,
+    return_to: Routes.user_detail_index_path(@socket, :index) %>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>First name</th>
+      <th>Last name</th>
+      <th>Email</th>
+      <th>Dob</th>
+      <th>Phone number</th>
+      <th>Street address</th>
+      <th>Zip code</th>
+      <th>City</th>
+      <th>State</th>
+      <th>Password</th>
+      <th>Ssn</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="user_detail">
+    <%= for user_detail <- @user_detail_collection do %>
+      <tr id={"user_detail-#{user_detail.id}"}>
+        <td><%= user_detail.first_name %></td>
+        <td><%= user_detail.last_name %></td>
+        <td><%= user_detail.email %></td>
+        <td><%= user_detail.dob %></td>
+        <td><%= user_detail.phone_number %></td>
+        <td><%= user_detail.street_address %></td>
+        <td><%= user_detail.zip_code %></td>
+        <td><%= user_detail.city %></td>
+        <td><%= user_detail.state %></td>
+        <td><%= user_detail.password %></td>
+        <td><%= user_detail.ssn %></td>
+
+        <td>
+          <span><%= live_redirect "Show", to: Routes.user_detail_show_path(@socket, :show, user_detail) %></span>
+          <span><%= live_patch "Edit", to: Routes.user_detail_index_path(@socket, :edit, user_detail) %></span>
+          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: user_detail.id, data: [confirm: "Are you sure?"] %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<span><%= live_patch "New User detail", to: Routes.user_detail_index_path(@socket, :new) %></span>
