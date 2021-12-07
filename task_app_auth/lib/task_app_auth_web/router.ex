@@ -25,18 +25,12 @@ defmodule TaskAppAuthWeb.Router do
     pipe_through(:browser)
 
     get("/", PageController, :index)
-    live("/user_detail", UserDetailLive.Index, :index)
-    live("/user_detail/new", UserDetailLive.Index, :new)
-    live("/user_detail/:id/edit", UserDetailLive.Index, :edit)
-
-    live("/user_detail/:id", UserDetailLive.Show, :show)
-    live("/user_detail/:id/show/edit", UserDetailLive.Show, :edit)
   end
 
   scope "/", TaskAppAuthWeb do
     pipe_through([:browser])
     resources("/tasks", TaskController)
-    live("/details/new", DetailsLive.New, :new)
+    live("/accounts", AccountLive.New, :new)
   end
 
   # Other scopes may use custom stacks.

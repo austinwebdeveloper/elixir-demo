@@ -1,8 +1,8 @@
-defmodule TaskAppAuth.UserDetails.UserDetail do
+defmodule TaskAppAuth.Accounts.Account do
   use Ecto.Schema
   import Ecto.Changeset
 
-  schema "user_detail" do
+  schema "account" do
     field :city, :string
     field :dob, :string
     field :email, :string
@@ -13,14 +13,14 @@ defmodule TaskAppAuth.UserDetails.UserDetail do
     field :ssn, :string
     field :state, :string
     field :street_address, :string
-    field :zip_code, :string
+    field :zip_code, :integer
 
     timestamps()
   end
 
   @doc false
-  def changeset(user_detail, attrs) do
-    user_detail
+  def changeset(account, attrs) do
+    account
     |> cast(attrs, [:first_name, :last_name, :email, :dob, :phone_number, :street_address, :zip_code, :city, :state, :password, :ssn])
     |> validate_required([:first_name, :last_name, :email, :dob, :phone_number, :street_address, :zip_code, :city, :state, :password, :ssn])
   end
