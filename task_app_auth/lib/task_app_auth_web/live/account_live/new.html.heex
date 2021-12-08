@@ -1,6 +1,6 @@
 <h2>Create Your Account</h2>
 <.form let={f} for={@changeset} phx-change="validate" phx-submit="save">
-    <%= if @display == 0  do %>
+   <div class={if @display != 0 do "while-submitting" end}>
         <%= label f, :first_name %>
         <%= text_input f, :first_name %>
         <%= error_tag f, :first_name %>
@@ -12,20 +12,20 @@
         <%= label f, :email %>
         <%= text_input f, :email %>
         <%= error_tag f, :email %>
-    <%= end %>
+   </div>
 
-    <%= if @display == 1  do %>
+    <div class={if @display != 1 do "while-submitting" end}>
         <%= label f, :dob %>
         <%= text_input f, :dob %>
         <%= error_tag f, :dob %>
-        
+
 
         <%= label f, :phone_number %>
         <%= text_input f, :phone_number %>
         <%= error_tag f, :phone_number %>
-    <%= end %>
+    </div>
 
-    <%= if @display == 2  do %>
+    <div class={if @display != 2 do "while-submitting" end}>
         <%= label f, :street_address %>
         <%= text_input f, :street_address %>
         <%= error_tag f, :street_address %>
@@ -41,13 +41,13 @@
         <%= label f, :state %>
         <%= text_input f, :state %>
         <%= error_tag f, :state %>
-    <%= end %> 
+   </div>
 
-    <%= if @display == 3  do %>
+   <div class={if @display != 3 do "while-submitting" end}>
         <%= label f, :password %>
         <%= password_input f, :password, value: input_value(f, :password) %>
         <%= error_tag f, :password %>
-        
+
         <%= label f, :ssn %>
         <%= text_input f, :ssn %>
         <%= error_tag f, :ssn %>
@@ -55,14 +55,14 @@
         <div>
             <%= submit "Save", phx_disable_with: "Saving..." %>
         </div>
-    <%= end %> 
-    
+    </div>
+   
 </.form>
 <div>
     <%= if @display != 0 do %>
         <button type="submit" phx-click="backward">Back</button>
-    <%= end %>
+    <% end %>
     <%= if @display != 3 do %>
         <button type="submit" phx-click="forward">Next</button>
-    <%= end %>
+    <% end %>
 </div>

@@ -14,7 +14,12 @@ defmodule TaskAppAuthWeb.AccountLive.New do
   end
 
   def handle_event("validate", %{"account" => user_params}, socket) do
-    Logger.info("not submitted from ")
+    # IO.inspect(socket.assigns.changeset.changes)
+    Logger.info("before user params")
+    IO.inspect(user_params)
+    Logger.info("after user params")
+
+    # IO.inspect(socket.assigns.changeset.changes)
 
     changeset =
       %Account{}
@@ -22,19 +27,21 @@ defmodule TaskAppAuthWeb.AccountLive.New do
       |> Map.put(:action, :insert)
 
     {:noreply, assign(socket, changeset: changeset)}
-
-    # {:noreply,socket}
   end
 
   def handle_event("backward", _, socket) do
-    Logger.info("clicked")
+    # Logger.info("clicked backward")
+    # IO.inspect(socket)
+
     count = socket.assigns.display - 1
     socket = assign(socket, :display, count)
     {:noreply, socket}
   end
 
   def handle_event("forward", _, socket) do
-    Logger.info("clicked")
+    # Logger.info("clicked forward")
+    # IO.inspect(socket.assigns.changeset.changes)
+
     count = socket.assigns.display + 1
 
     socket = assign(socket, :display, count)
