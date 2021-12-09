@@ -2,8 +2,8 @@ import Config
 
 # Configure your database
 config :task_app_auth, TaskAppAuth.Repo,
-  username: "postgres",
-  password: "postgres",
+  username: "muneer",
+  password: "Nueve",
   database: "task_app_auth_dev",
   hostname: "localhost",
   show_sensitive_data_on_connection_error: true,

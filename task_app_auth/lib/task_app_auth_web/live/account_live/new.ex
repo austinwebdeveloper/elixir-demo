@@ -9,8 +9,15 @@ defmodule TaskAppAuthWeb.AccountLive.New do
 
   def mount(_params, _session, socket) do
     changeset = Accounts.change_account(%Account{})
+    display = 0
+    # {:ok, assign(socket, changeset: changeset, display: 0)}
 
-    {:ok, assign(socket, changeset: changeset, display: 0)}
+    {:ok, socket
+    |> assign(:changeset, changeset)
+    |> assign(:display,display)
+    |> allow_upload(:image, accept: ~w(.jpg .jpeg .png), max_entries: 1)}
+
+
   end
 
   def handle_event("validate", %{"account" => user_params}, socket) do
@@ -51,8 +58,13 @@ defmodule TaskAppAuthWeb.AccountLive.New do
 
   def handle_event("save", %{"account" => user_params}, socket) do
     Logger.info(" submitted from ")
-
-    case Accounts.create_account(user_params) do
+    file_path =
+      consume_uploaded_entry(socket, :image, fn %{path: path}, _entry ->
+        dest = Path.join("priv/static/uploads", Path.basename(path))
+        File.cp!(path, dest)
+        Routes.static_path(socket, "/uploads/#{Path.basename(dest)}")
+      end)
+    case Accounts.create_account(Map.put(user_params, :image_upload, file_path)) do
       {:ok, account} ->
         {:noreply,
          socket

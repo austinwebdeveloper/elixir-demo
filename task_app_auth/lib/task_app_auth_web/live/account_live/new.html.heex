@@ -1,5 +1,6 @@
 <h2>Create Your Account</h2>
-<.form let={f} for={@changeset} phx-change="validate" phx-submit="save">
+<.form let={f} for={@changeset}  [multipart: true] phx-change="validate" phx-submit="save">
+<%= @display %>
    <div class={if @display != 0 do "while-submitting" end}>
         <%= label f, :first_name %>
         <%= text_input f, :first_name %>
@@ -53,6 +54,10 @@
         <%= label f, :ssn %>
         <%= text_input f, :ssn %>
         <%= error_tag f, :ssn %>
+
+        <% # File upload fields here: %>
+  <%= label f, :image %>
+  <%= live_file_input @uploads.image %>
 
         <div>
             <%= submit "Save", phx_disable_with: "Saving..." %>
