@@ -17,7 +17,7 @@ defmodule TaskAppAuthWeb.AccountLive.New do
      #  |> assign(socket.assigns)
      |> assign(:changeset, changeset)
      |> assign(:display, display)
-     |> allow_upload(:image, accept: ~w(.jpg .jpeg .png), max_entries: 3)}
+     |> allow_upload(:image, accept: ~w(.jpg .jpeg .png), max_entries: 1)}
   end
 
   def handle_event("validate", %{"account" => user_params}, socket) do
@@ -61,16 +61,17 @@ defmodule TaskAppAuthWeb.AccountLive.New do
     # IO.inspect(socket.assigns)
 
     file_path =
-      consume_uploaded_entry(socket, :image, fn %{path: path}, _entry ->
-        # dest = Path.join("priv/static/uploads", Path.basename(path))
-        # File.cp!(path, dest)
-        IO.inspect("inspect")
-        # Routes.static_path(socket, "/uploads/#{Path.basename(dest)}")
+      consume_uploaded_entries(socket, :image, fn %{path: path}, _entry ->
+        dest = Path.join("priv/static/uploads", Path.basename(path))
+        IO.inspect(path)
+        File.cp!(path, dest)
+        Routes.static_path(socket, "/uploads/#{Path.basename(dest)}")
       end)
 
     IO.inspect(file_path)
+    [head | tail] = file_path
 
-    case Accounts.create_account(Map.put(user_params, "image_upload", file_path)) do
+    case Accounts.create_account(Map.put(user_params, "image_upload", head)) do
       # case Accounts.create_account(user_params) do
       {:ok, account} ->
         {:noreply,
@@ -78,8 +79,8 @@ defmodule TaskAppAuthWeb.AccountLive.New do
          |> put_flash(:info, "user created")}
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        IO.inspect("error")
-        # {:noreply, assign(socket, changeset: changeset)}
+        IO.inspect(changeset)
+        {:noreply, assign(socket, changeset: changeset)}
     end
   end
 end

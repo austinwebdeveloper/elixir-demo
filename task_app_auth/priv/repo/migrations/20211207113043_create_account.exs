@@ -14,7 +14,6 @@ defmodule TaskAppAuth.Repo.Migrations.CreateAccount do
       add(:state, :string)
       add(:password, :string)
       add(:ssn, :string)
-      add(:image_upload, :string)
 
       timestamps()
     end
