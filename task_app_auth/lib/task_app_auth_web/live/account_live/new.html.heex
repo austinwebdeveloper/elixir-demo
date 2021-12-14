@@ -81,7 +81,7 @@
         <button type="submit" phx-click="backward" style="margin: 10px; background: #606c76">Back</button>
     <% end %>
     <%= if @display != 3 do %>
-        <button type="submit" phx-click="forward" style="margin: 10px; background: green">Next</button>
+        <button type="submit" phx-click="forward" style="margin: 10px; background: green" disabled={if @disable == "false", do: false, else: true} >Next</button>
     <% end %>
 </div>
 </div>
