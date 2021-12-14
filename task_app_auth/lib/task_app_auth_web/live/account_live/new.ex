@@ -17,7 +17,7 @@ defmodule TaskAppAuthWeb.AccountLive.New do
      #  |> assign(socket.assigns)
      |> assign(:changeset, changeset)
      |> assign(:display, display)
-     |> allow_upload(:image, accept: ~w(.jpg .jpeg .png), max_entries: 1)}
+     |> allow_upload(:image, accept: ~w(.jpg .jpeg .png .pdf), max_entries: 1)}
   end
 
   def handle_event("validate", %{"account" => user_params}, socket) do

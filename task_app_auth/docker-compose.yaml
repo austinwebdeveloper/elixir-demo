@@ -1,8 +1,7 @@
 version: "3"
 services:
   web:
+    image: atxwebdesigner/app_auth_elixir
     build: .
     ports:
       - "4000:4000"
-    # volumes:
-    #   - .:/app
