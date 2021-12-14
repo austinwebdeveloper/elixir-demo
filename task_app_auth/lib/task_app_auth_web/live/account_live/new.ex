@@ -10,18 +10,19 @@ defmodule TaskAppAuthWeb.AccountLive.New do
   def mount(_params, _session, socket) do
     changeset = Accounts.change_account(%Account{})
     display = 0
+    success = true
     # {:ok, assign(socket, changeset: changeset, display: 0)}
-
     {:ok,
      socket
      #  |> assign(socket.assigns)
      |> assign(:changeset, changeset)
      |> assign(:display, display)
+     |> assign(:success, success)
      |> allow_upload(:image, accept: ~w(.jpg .jpeg .png .pdf), max_entries: 1)}
   end
 
   def handle_event("validate", %{"account" => user_params}, socket) do
-    # IO.inspect(socket.assigns.changeset.changes)
+    IO.inspect(user_params)
     # Logger.info("before user params")
     # IO.inspect(socket.assigns.uploads)
     # Logger.info("after user params")
@@ -72,11 +73,12 @@ defmodule TaskAppAuthWeb.AccountLive.New do
     [head | tail] = file_path
 
     case Accounts.create_account(Map.put(user_params, "image_upload", head)) do
-      # case Accounts.create_account(user_params) do
       {:ok, account} ->
+        socket = assign(socket, :success, false)
+
         {:noreply,
          socket
-         |> put_flash(:info, "user created")}
+         |> put_flash(:info, "Account created")}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         IO.inspect(changeset)

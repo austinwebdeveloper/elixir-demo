@@ -32,7 +32,7 @@ task_app_auth-*.tar
 npm-debug.log
 /assets/node_modules/
 
-   .DS_Store
-	task_app_auth/.DS_Store
-	task_app_auth/priv/.DS_Store
-	task_app_auth/priv/static/.DS_Store
+.DS_Store
+task_app_auth/.DS_Store
+task_app_auth/priv/.DS_Store
+task_app_auth/priv/static/.DS_Store

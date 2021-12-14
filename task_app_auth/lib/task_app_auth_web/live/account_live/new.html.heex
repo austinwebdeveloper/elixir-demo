@@ -1,74 +1,94 @@
-<h2>Create Your Account</h2>
+<%= if @success do %>
+<div style="padding: 50px; margin-top: 50px; border-radius: 24px; box-shadow: rgb(0 0 0 / 8%) 0px 8px 12px 0px, rgb(0 0 0 / 4%) 0px 24px 32px 0px ; background: white">
+<h1 style="text-align: center"><strong>Solara phoenix</strong></h1>
 <.form let={f} for={@changeset}  [multipart: true] phx-change="validate" phx-submit="save">
    <div class={if @display != 0 do "while-submitting" end}>
-        <%= label f, :first_name %>
-        <%= text_input f, :first_name %>
-        <%= error_tag f, :first_name %>
+        <h2 style="padding-top: 10px"><b>Hi, what’s your name?</b></h2>
+        <h5>Let’s start with some basic information</h5>
+            <%= label f, :first_name %>
+            <%= text_input f, :first_name %>
+            <%= error_tag f, :first_name %>
 
-        <%= label f, :last_name %>
-        <%= text_input f, :last_name %>
-        <%= error_tag f, :last_name %>
+            <%= label f, :last_name %>
+            <%= text_input f, :last_name %>
+            <%= error_tag f, :last_name %>
 
-        <%= label f, :email %>
-        <%= text_input f, :email %>
-        <%= error_tag f, :email %>
-
+            <%= label f, :email %>
+            <%= text_input f, :email %>
+            <%= error_tag f, :email %>
    </div>
 
     <div class={if @display != 1 do "while-submitting" end}>
-        <%= label f, :dob %>
-        <%= date_input f, :dob %>
-        <%= error_tag f, :dob %>
+        <h2 style="padding-top: 10px"><b>Date of birth</b></h2>
+        <h5>This should match the date on your ID.</h5>
+            <%= label f, :dob %>
+            <%= date_input f, :dob %>
+            <%= error_tag f, :dob %>
 
-        <%= label f, :phone_number %>
-        <%= text_input f, :phone_number %>
-        <%= error_tag f, :phone_number %>
+        <h2 style="padding-top: 10px"><b>Phone number</b></h2>
+        <h5>We’ll use it to keep your account safe and provide support if you need it.</h5>
+
+            <%= label f, :phone_number %>
+            <%= text_input f, :phone_number %>
+            <%= error_tag f, :phone_number %>
     </div>
 
     <div class={if @display != 2 do "while-submitting" end}>
-        <%= label f, :street_address %>
-        <%= text_input f, :street_address %>
-        <%= error_tag f, :street_address %>
+        <h2 style="padding-top: 10px"><b>Where do you live?</b></h2>
+        <h5>We need to verify your home address.</h5>
+            <%= label f, :street_address %>
+            <%= text_input f, :street_address %>
+            <%= error_tag f, :street_address %>
 
-        <%= label f, :zip_code %>
-        <%= text_input f, :zip_code %>
-        <%= error_tag f, :zip_code %>
+            <%= label f, :zip_code %>
+            <%= text_input f, :zip_code %>
+            <%= error_tag f, :zip_code %>
 
-        <%= label f, :city %>
-        <%= text_input f, :city %>
-        <%= error_tag f, :city %>
+            <%= label f, :city %>
+            <%= text_input f, :city %>
+            <%= error_tag f, :city %>
 
-        <%= label f, :state %>
-        <%= select f, :state, ["TX", "CA"], prompt: "Selecta a state" %>
-        <%= error_tag f, :state %>
+            <%= label f, :state %>
+            <%= select f, :state, ["TX", "CA"], prompt: "Selecta a state" %>
+            <%= error_tag f, :state %>
    </div>
 
    <div class={if @display != 3 do "while-submitting" end}>
-        <%= label f, :password %>
-        <%= password_input f, :password, value: input_value(f, :password) %>
-        <%= error_tag f, :password %>
+            <%= label f, :password %>
+            <%= password_input f, :password, value: input_value(f, :password) %>
+            <%= error_tag f, :password %>
 
-        <%= label f, :ssn %>
-        <%= text_input f, :ssn %>
-        <%= error_tag f, :ssn %>
+        <h2 style="padding-top: 10px"><b>What's you SSN?</b></h2>
+            <%= label f, :ssn %>
+            <%= text_input f, :ssn %>
+            <%= error_tag f, :ssn %>
 
-        <% # File upload fields here: %>
-        <%= label f, :image %>
-        <%= live_file_input @uploads.image %>
-        <%= for entry <- @uploads.image.entries do %>
-            <%= live_img_preview entry, height: 80 %>
-        <% end %>
-        <div>
-            <%= submit "Save", phx_disable_with: "Saving..." %>
-        </div>
+            <% # File upload fields here: %>
+            <%= label f, :image %>
+            <%= live_file_input @uploads.image %>
+            <%= for entry <- @uploads.image.entries do %>
+                <%= live_img_preview entry, height: 80 %>
+            <% end %>
+
+            <div style="display: flex; justify-content: center">
+                <%= submit "Save", phx_disable_with: "Saving..."  %>
+            </div>
     </div>
-   
 </.form>
-<div>
+
+<div style="display: flex; justify-content: center">
     <%= if @display != 0 do %>
-        <button type="submit" phx-click="backward">Back</button>
+        <button type="submit" phx-click="backward" style="margin: 10px; background: #606c76">Back</button>
     <% end %>
     <%= if @display != 3 do %>
-        <button type="submit" phx-click="forward">Next</button>
+        <button type="submit" phx-click="forward" style="margin: 10px; background: green">Next</button>
     <% end %>
 </div>
+</div>
+<% end %>
+
+<%= if !@success do %>
+  <span><%= link "Go to Homepage", to: Routes.page_path(@socket, :index) %></span>
+
+<% end %>
+
